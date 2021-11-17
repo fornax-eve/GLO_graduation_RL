@@ -6,7 +6,7 @@ const popup_menu = function () {
 
   header.addEventListener('click', (e) => {
     if (e.target.closest('.menu')) {
-      popupDialogMenu.style.transform = 'translate3d(0, 0, 0)';//'translate3d(645px, 0, 0)';
+      popupDialogMenu.style.transform = 'translate3d(0, 0, 0)';
       setTimeout(() => {
         opened = true;
       }, 700)
