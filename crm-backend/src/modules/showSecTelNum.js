@@ -10,7 +10,6 @@ const showSecondTel = function () {
       secondTelMunber.style.top = '25px';
       secondTelMunber.firstElementChild.style.opacity = 1;
     } else {
-      console.log(this.style.transform)
       this.style.transform = 'rotate(0deg)';
       secondTelMunber.style.top = '0px';
       secondTelMunber.firstElementChild.style.opacity = 0;
