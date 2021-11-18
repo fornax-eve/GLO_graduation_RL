@@ -1,18 +1,24 @@
+import {cssSearch} from "./helper";
+
 const popup_menu = function () {
   const header = document.querySelector('.header')
   const popupDialogMenu = document.querySelector('.popup-dialog-menu')
   const closeMenu = document.querySelector('.close-menu')
   const menuLink = document.querySelectorAll('.menu-link')
+  const popupRepairType = document.querySelector('.popup-repair-types')
+  const linkTopopupRepair = document.querySelector('.menu-link.no-overflow')
+  const linksToPopUpRepair = document.querySelectorAll('.link-popuprepair')
+  const close = document.querySelectorAll('.close')
   let opened = false;
 
+
   // динамическое отслеживание ширины экрана для реализации выезда меню сверху
-  window.addEventListener('resize',function(){
+  window.addEventListener('resize', function () {
     if (document.body.clientWidth < 576) {
       popupDialogMenu.style.transform = 'translate3d(0, -715px, 0)';
     } else {
       popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
     }
-    console.log(popupDialogMenu.clientHeight);
   });
 
 
@@ -24,6 +30,15 @@ const popup_menu = function () {
       }, 700)
     }
   })
+
+  document.onkeydown = (e) => {
+    if (opened) {
+      if (e.key == 'Escape') {
+        opened = false;
+        popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
+      }
+    }
+  }
 
   const animate = (time, top) => {
     let speed = Math.round(+top / +time);
@@ -49,7 +64,8 @@ const popup_menu = function () {
           popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
         }
       }
-    //плавный скроллинг
+
+      //плавный скроллинг
       menuLink.forEach(each => {
         if (each.hash.length > 2) {
           let coords;
@@ -75,16 +91,32 @@ const popup_menu = function () {
         }
       })
     }
-  })
-
-  document.onkeydown = (e) => {
-    if (opened) {
-      if (e.key == 'Escape') {
+    if (e.target.closest('.menu-link.no-overflow')) {
+      popupRepairType.style.visibility = 'visible';
+      if (opened) {
         opened = false;
-        popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
+        if (document.body.clientWidth < 576) {
+          popupDialogMenu.style.transform = 'translate3d(0, -715px, 0)';
+        } else {
+          popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
+        }
       }
     }
-  }
+  })
+
+  linksToPopUpRepair.forEach(each => {
+    each.addEventListener('click', () => {
+      popupRepairType.style.visibility = 'visible';
+    })
+  })
+
+  close.forEach(each => {
+    each.addEventListener('click', () => {
+      popupRepairType.style.visibility = 'hidden';
+    })
+  })
+
+  // cssSearch(".popup")
 }
 
 export default popup_menu;
