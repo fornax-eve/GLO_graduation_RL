@@ -9,6 +9,10 @@ const popup_menu = function () {
   const linkTopopupRepair = document.querySelector('.menu-link.no-overflow')
   const linksToPopUpRepair = document.querySelectorAll('.link-popuprepair')
   const close = document.querySelectorAll('.close')
+  const linkPrivacy = document.querySelectorAll('.link-privacy')
+  const popupPrivacy = document.querySelector('.popup-privacy')
+
+  let privacy = false;
   let opened = false;
 
 
@@ -36,6 +40,12 @@ const popup_menu = function () {
       if (e.key == 'Escape') {
         opened = false;
         popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
+      }
+    }
+    if (privacy) {
+      if (e.key == 'Escape') {
+        privacy = false;
+        popupPrivacy.style.visibility = 'hidden';
       }
     }
   }
@@ -78,6 +88,7 @@ const popup_menu = function () {
         }
       })
     }
+
     //при нажатии кнопки в футере
     if (e.target == document.querySelector('[href="#main"]')) {
       e.preventDefault();
@@ -104,6 +115,14 @@ const popup_menu = function () {
     }
   })
 
+  //открываем окно политика конфиденциальности
+  linkPrivacy.forEach(each => {
+    each.addEventListener('click', () => {
+      popupPrivacy.style.visibility = 'visible';
+      privacy = true;
+    })
+  })
+
   linksToPopUpRepair.forEach(each => {
     each.addEventListener('click', () => {
       popupRepairType.style.visibility = 'visible';
@@ -113,10 +132,14 @@ const popup_menu = function () {
   close.forEach(each => {
     each.addEventListener('click', () => {
       popupRepairType.style.visibility = 'hidden';
+      if (privacy) {
+        privacy = false;
+        popupPrivacy.style.visibility = 'hidden';
+      }
     })
   })
 
-  // cssSearch(".button")
+  // cssSearch(".close")
 }
 
 export default popup_menu;
