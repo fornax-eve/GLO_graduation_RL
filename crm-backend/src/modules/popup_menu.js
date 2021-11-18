@@ -5,6 +5,17 @@ const popup_menu = function () {
   const menuLink = document.querySelectorAll('.menu-link')
   let opened = false;
 
+  // динамическое отслеживание ширины экрана для реализации выезда меню сверху
+  window.addEventListener('resize',function(){
+    if (document.body.clientWidth < 576) {
+      popupDialogMenu.style.transform = 'translate3d(0, -715px, 0)';
+    } else {
+      popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
+    }
+    console.log(popupDialogMenu.clientHeight);
+  });
+
+
   header.addEventListener('click', (e) => {
     if (e.target.closest('.menu')) {
       popupDialogMenu.style.transform = 'translate3d(0, 0, 0)';
@@ -15,11 +26,9 @@ const popup_menu = function () {
   })
 
   const animate = (time, top) => {
-
     let speed = Math.round(+top / +time);
-    let request = requestAnimationFrame(function anim() {
+    requestAnimationFrame(function anim() {
       if (document.documentElement.scrollTop < top) {
-
         document.documentElement.scrollTop = document.documentElement.scrollTop + speed * 25;
         requestAnimationFrame(anim)
       } else {
@@ -31,11 +40,16 @@ const popup_menu = function () {
   document.addEventListener('click', (e) => {
     if (opened) {
       e.preventDefault();
+      //прячем меню
       if (e.target.contains(closeMenu) || !e.target.closest('.popup-dialog-menu')) {
         opened = false;
-        popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
+        if (document.body.clientWidth < 576) {
+          popupDialogMenu.style.transform = 'translate3d(0, -715px, 0)';
+        } else {
+          popupDialogMenu.style.transform = 'translate3d(645px, 0, 0)';
+        }
       }
-
+    //плавный скроллинг
       menuLink.forEach(each => {
         if (each.hash.length > 2) {
           let coords;
@@ -48,6 +62,7 @@ const popup_menu = function () {
         }
       })
     }
+    //при нажатии кнопки в футере
     if (e.target == document.querySelector('[href="#main"]')) {
       e.preventDefault();
       let req = requestAnimationFrame(function anim() {
