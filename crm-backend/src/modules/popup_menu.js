@@ -159,6 +159,7 @@ const popup_menu = function () {
     })
     ich.addEventListener('mouseout', () => {
       ich.classList.remove('active-item')
+      styleElem.innerText = `.formula-item-popup-${ich.children[2].textContent}:before {}`
     })
   })
 
