@@ -143,8 +143,9 @@ const popup_menu = function () {
   })
 
   //подсказка при наведении на кружок с цифрой
+  let styleElem = document.createElement("style")
+  styleElem.id = 'styleFormula';
   formulaIcon.forEach(ich => {
-    let styleElem = document.head.appendChild(document.createElement("style"));
     ich.addEventListener('mouseover', () => {
       if (ich.closest('.mobile-hide')) {
         let a = ich.getBoundingClientRect().top
@@ -153,16 +154,23 @@ const popup_menu = function () {
         if (a < b) {
           ich.firstElementChild.style.transform = `translateY(${b + c + 45}px)`
           styleElem.innerText = `.formula-item-popup-${ich.children[2].textContent}:before {transform: rotate(180deg);}`
+          document.head.appendChild(styleElem)
         }
         ich.classList.add('active-item')
       }
     })
     ich.addEventListener('mouseout', () => {
-      ich.classList.remove('active-item')
-      styleElem.innerText = `.formula-item-popup-${ich.children[2].textContent}:before {}`
+      if (ich.closest('.mobile-hide')) {
+        ich.classList.remove('active-item')
+        ich.firstElementChild.removeAttribute('style');
+        const head = document.getElementById('styleFormula');
+        if (head) {
+          document.head.removeChild(styleElem);
+        }
+      }
+
     })
   })
-
 
   // cssSearch(".formula-item-popup")
 }
