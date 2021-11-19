@@ -11,6 +11,8 @@ const popup_menu = function () {
   const close = document.querySelectorAll('.close')
   const linkPrivacy = document.querySelectorAll('.link-privacy')
   const popupPrivacy = document.querySelector('.popup-privacy')
+  const popupFormula = document.querySelectorAll('.formula-item-popup')
+  const formulaIcon = document.querySelectorAll('.formula-item__icon')
 
   let privacy = false;
   let opened = false;
@@ -129,6 +131,7 @@ const popup_menu = function () {
     })
   })
 
+  //Закрываем окна
   close.forEach(each => {
     each.addEventListener('click', () => {
       popupRepairType.style.visibility = 'hidden';
@@ -139,7 +142,28 @@ const popup_menu = function () {
     })
   })
 
-  // cssSearch(".close")
+  //подсказка при наведении на кружок с цифрой
+  formulaIcon.forEach(ich => {
+    let styleElem = document.head.appendChild(document.createElement("style"));
+    ich.addEventListener('mouseover', () => {
+      if (ich.closest('.mobile-hide')) {
+        let a = ich.getBoundingClientRect().top
+        let b = ich.firstElementChild.clientHeight
+        let c = ich.clientHeight;
+        if (a < b) {
+          ich.firstElementChild.style.transform = `translateY(${b + c + 45}px)`
+          styleElem.innerText = `.formula-item-popup-${ich.children[2].textContent}:before {transform: rotate(180deg);}`
+        }
+        ich.classList.add('active-item')
+      }
+    })
+    ich.addEventListener('mouseout', () => {
+      ich.classList.remove('active-item')
+    })
+  })
+
+
+  // cssSearch(".formula-item-popup")
 }
 
 export default popup_menu;
