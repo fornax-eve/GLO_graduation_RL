@@ -6,9 +6,41 @@ const sliderRepair = () => {
   const arrowRight = document.getElementById('repair-types-arrow_right')
   const counterCurrent = document.querySelector('.slider-counter-content__current')
   const counterTotal = document.querySelector('.slider-counter-content__total')
+  const mobileArrowRight = document.getElementById('nav-arrow-repair-right_base')
+  const mobileArrowLeft = document.getElementById('nav-arrow-repair-left_base')
+  const navListRepair = document.querySelector('.nav-list-repair')
 
   let activeButton = 0;
   let activeImage = 0;
+
+  let currNavLength = navListRepair.offsetWidth / 4;
+  let move = 1;
+  let lv = 1;
+
+  const mobileSliderChanges = () => {
+    move = 1;
+    lv = 1;
+    currNavLength = navListRepair.offsetWidth / 4
+    mobileArrowRight.addEventListener('click', () => {
+      move++;
+      if (navListRepair.offsetWidth > currNavLength * (move + 2)) {
+        navListRepair.style.transform = `translateX(-${currNavLength * move}px)`
+        lv--;
+      } else {
+        move--;
+      }
+    })
+
+    mobileArrowLeft.addEventListener('click', () => {
+      if (move > 1) {
+
+        navListRepair.style.transform = `translateX(${currNavLength * lv}px)`
+        lv++
+        move--;
+      }
+    })
+  }
+
 
   // let myStyle = document.createElement('style');
   // myStyle.innerText = '.no-select { -webkit-user-select: none;\n' +
@@ -54,7 +86,6 @@ const sliderRepair = () => {
       } else {
         activeImage = allSliders.children[activeButton].children.length - 1
       }
-      console.log(activeImage)
       blockOfImages()
       counterChanges()
     })
@@ -102,8 +133,11 @@ const sliderRepair = () => {
     })
   })
 
+  window.addEventListener('resize', mobileSliderChanges())
+
   changesImagesInsideBlock()
   counterChanges()
+  mobileSliderChanges()
 }
 
 export default sliderRepair;
